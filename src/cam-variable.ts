@@ -1,30 +1,28 @@
 export class CamVariableMap<T> extends Map<string, T> {
-  constructor(public $scope: any) {
+  constructor(public $scope: any, public camForm: any) {
     super();
   }
 
   #setScope<T>(key: string, value: T): Promise<T> {
-    const $scope = this.$scope;
-
     return new Promise((resolve) => {
-      camForm.on("form-loaded", function () {
-        camForm.variableManager.fetchVariable(key);
+      this.camForm.on("form-loaded", () => {
+        this.camForm.variableManager.fetchVariable(key);
 
-        camForm.on("variables-fetched", function () {
-          const _value = camForm.variableManager.variableValue(key);
+        this.camForm.on("variables-fetched", () => {
+          const _value = this.camForm.variableManager.variableValue(key);
 
           if (_value === undefined) {
-            $scope[key] = value;
-            camForm.variableManager.variable(key).type = "json";
-            camForm.variableManager.variable(key).valueInfo = {
+            this.$scope[key] = value;
+            this.camForm.variableManager.variable(key).type = "json";
+            this.camForm.variableManager.variable(key).valueInfo = {
               serializationDataFormat: "application/json",
             };
-            camForm.variableManager.variable(key).value = $scope[key];
+            this.camForm.variableManager.variable(key).value = this.$scope[key];
           } else {
-            $scope[key] = _value;
+            this.$scope[key] = _value;
           }
 
-          resolve($scope[key]);
+          resolve(this.$scope[key]);
         });
       });
     });

@@ -1,7 +1,7 @@
 {
   "name": "cam-variable-js",
-  "version": "1.0.0",
-  "description": "Make working with Camunda Variables easier",
+  "version": "1.0.1",
+  "description": "Makes working with Camunda Variables easier",
   "main": "dist/index.js",
   "type": "module",
   "types": "dist/index.d.ts",
